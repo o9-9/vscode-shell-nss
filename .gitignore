@@ -2,3 +2,5 @@ node_modules
 *.vsix
 .env
 out
+/o9-9.shell-nss-syntax-highlighting-0.0.1
+/shell-nss-syntax-highlighting-0.0.1

@@ -1,0 +1,472 @@
+{
+	"$schema": "https://raw.githubusercontent.com/o9-9/vscode-shell-nss/main/tmlanguage.json",
+	"name": "Shell NSS",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#sections"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#images"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#enumerations"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#colors"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.double-slash.shell-nss",
+					"match": "//.*$"
+				},
+				{
+					"name": "comment.block.shell-nss",
+					"begin": "/\\*",
+					"end": "\\*/"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.single.shell-nss",
+					"begin": "'",
+					"end": "'",
+					"patterns": [
+						{
+							"include": "#expressions"
+						},
+						{
+							"name": "constant.character.escape.shell-nss",
+							"match": "\\\\."
+						}
+					]
+				},
+				{
+					"name": "string.quoted.double.shell-nss",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.shell-nss",
+							"match": "\\\\."
+						}
+					]
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"name": "variable.other.shell-nss",
+					"match": "\\$[a-zA-Z_][a-zA-Z0-9_-]*"
+				}
+			]
+		},
+		"images": {
+			"patterns": [
+				{
+					"name": "constant.other.image.shell-nss",
+					"match": "@[a-zA-Z_][a-zA-Z0-9_-]*"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.shell-nss",
+					"match": "(?<!\\.)\\b(import|settings|theme|modify|remove|item|menu|separator)\\b"
+				},
+				{
+					"name": "keyword.control.shell-nss",
+					"match": "\\b(null|bool|true|false|auto|none|default)\\b"
+				}
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"name": "support.function.builtin.shell-nss",
+					"match": "\\b(if|indexof|null|length|len|quote|char|var|tohex|equal|not|greater|less|shl|shr)\\s*(?=\\()"
+				}
+			]
+		},
+		"enumerations": {
+			"patterns": [
+				{
+					"name": "constant.language.enum.cmd.shell-nss",
+					"match": "\\bcmd\\.(hidden|show|visible|normal|maximized|minimized)\\b"
+				},
+				{
+					"name": "constant.language.enum.mode.shell-nss",
+					"match": "\\bmode\\.(none|single|multiple|multiunique|multisingle|multi)\\b"
+				},
+				{
+					"name": "constant.language.enum.type.shell-nss",
+					"match": "\\btype\\.(desktop|directory|dir|drive|dvd|file|fixed|namespace|remote|unknown|usb|vhd)\\b"
+				},
+				{
+					"name": "constant.language.enum.back.shell-nss",
+					"match": "\\bback\\.(directory|drive|fixed|usb|dvd|vhd|removable|namespace|computer|recyclebin)\\b"
+				}
+			]
+		},
+		"sections": {
+			"patterns": [
+				{
+					"name": "meta.section.settings.shell-nss",
+					"begin": "\\b(settings)\\s*\\{",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.section.brackets.curly.shell-nss"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.section.theme.shell-nss",
+					"begin": "\\b(theme)\\s*\\{",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.section.brackets.curly.shell-nss"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.section.menu.shell-nss",
+					"begin": "\\b(menu)\\s*\\(",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.section.brackets.curly.end.shell-nss"
+						}
+					},
+					"patterns": [
+						{
+							"name": "meta.menu.properties.shell-nss",
+							"begin": "\\(",
+							"end": "\\)",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.section.brackets.round.begin.shell-nss"
+								}
+							},
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.section.brackets.round.end.shell-nss"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#properties"
+								}
+							]
+						},
+						{
+							"name": "meta.menu.body.shell-nss",
+							"begin": "\\{",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.section.brackets.curly.begin.shell-nss"
+								}
+							},
+							"end": "(?=\\})",
+							"patterns": [
+								{
+									"include": "$self"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "meta.section.item.shell-nss",
+					"begin": "\\b(item)\\s*\\(",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						}
+					},
+					"end": "\\)",
+					"patterns": [
+						{
+							"include": "#properties"
+						}
+					]
+				},
+				{
+					"name": "meta.section.modify.shell-nss",
+					"begin": "\\b(modify)\\s*\\(",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						}
+					},
+					"end": "\\)",
+					"patterns": [
+						{
+							"include": "#properties"
+						}
+					]
+				},
+				{
+					"name": "meta.section.remove.shell-nss",
+					"begin": "\\b(remove)\\s*\\(",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						}
+					},
+					"end": "\\)",
+					"patterns": [
+						{
+							"include": "#properties"
+						}
+					]
+				},
+				{
+					"name": "meta.section.separator.shell-nss",
+					"begin": "\\b(separator)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						}
+					},
+					"end": "(?=\\n|$|\\})",
+					"patterns": [
+						{
+							"name": "meta.separator.properties.shell-nss",
+							"begin": "\\[\\s*\\(",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.separator.begin.shell-nss"
+								}
+							},
+							"end": "\\)\\s*\\]",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.definition.separator.end.shell-nss"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#properties"
+								}
+							]
+						},
+						{
+							"name": "meta.separator.properties.simple.shell-nss",
+							"begin": "\\(",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.separator.begin.shell-nss"
+								}
+							},
+							"end": "\\)",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.definition.separator.end.shell-nss"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#properties"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "meta.import.shell-nss",
+					"match": "\\b(import)\\s+([^\n]+)",
+					"captures": {
+						"1": {
+							"name": "keyword.control.shell-nss"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#strings"
+								},
+								{
+									"include": "#variables"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		"properties": {
+			"patterns": [
+				{
+					"name": "meta.property.shell-nss",
+					"match": "\\b([a-zA-Z_][a-zA-Z0-9_-]*)\\s*=",
+					"captures": {
+						"1": {
+							"name": "entity.name.property.shell-nss"
+						}
+					}
+				},
+				{
+					"include": "#arrays"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#variables"
+				},
+				{
+					"include": "#images"
+				},
+				{
+					"include": "#numbers"
+				},
+				{
+					"include": "#colors"
+				},
+				{
+					"include": "#functions"
+				},
+				{
+					"include": "#enumerations"
+				},
+				{
+					"include": "#keywords"
+				}
+			]
+		},
+		"arrays": {
+			"patterns": [
+				{
+					"name": "meta.array.shell-nss",
+					"begin": "\\[",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.array.begin.shell-nss"
+						}
+					},
+					"end": "\\]",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.array.end.shell-nss"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#strings"
+						},
+						{
+							"include": "#variables"
+						},
+						{
+							"include": "#numbers"
+						},
+						{
+							"name": "punctuation.separator.array.shell-nss",
+							"match": ","
+						}
+					]
+				}
+			]
+		},
+		"expressions": {
+			"patterns": [
+				{
+					"name": "meta.expression.shell-nss",
+					"match": "@[a-zA-Z_][a-zA-Z0-9_.]*"
+				},
+				{
+					"include": "#functions"
+				},
+				{
+					"include": "#enumerations"
+				},
+				{
+					"include": "#variables"
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.shell-nss",
+					"match": "\\b\\d+\\b"
+				}
+			]
+		},
+		"colors": {
+			"patterns": [
+				{
+					"name": "constant.other.color.hex.shell-nss",
+					"match": "#[0-9a-fA-F]{3,8}"
+				}
+			]
+		},
+		"brackets": {
+			"patterns": [
+				{
+					"name": "punctuation.section.brackets.round.shell-nss",
+					"match": "[()]"
+				},
+				{
+					"name": "punctuation.section.brackets.square.shell-nss",
+					"match": "[\\[\\]]"
+				},
+				{
+					"name": "punctuation.section.brackets.curly.shell-nss",
+					"match": "[{}]"
+				}
+			]
+		}
+	},
+	"scopeName": "source.shell-nss"
+}
